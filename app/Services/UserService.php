@@ -27,7 +27,7 @@ class UserService implements UserServiceInterface
                 'full_name' => 'required|string|max:255',
                 'date_of_birth' => 'required|date',
                 'phone' => 'required|string|max:20',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email|max:255',
                 'login' => 'required|string|max:255|unique:users',
                 'password' => 'required|string|min:8',
                 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -53,7 +53,7 @@ class UserService implements UserServiceInterface
                     Log::error('Photo upload failed: ' . $e->getMessage());
                     return back()
                         ->withInput()
-                        ->with('error', 'Failed to upload user photo. Please try again.');
+                        ->with('error', 'Не удалось загрузить фото.');
                 }
             }
 
@@ -70,11 +70,11 @@ class UserService implements UserServiceInterface
                 Log::error('User creation failed: ' . $e->getMessage());
                 return back()
                     ->withInput()
-                    ->with('error', 'Failed to create user. Please try again.');
+                    ->with('error', 'Произошла ошибка при создании пользователя.');
             }
 
             return redirect()->route('users.index')
-                ->with('success', 'User created successfully.');
+                ->with('success', 'Пользователь успешно добавлен.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Обработка ошибок валидации
@@ -87,7 +87,7 @@ class UserService implements UserServiceInterface
             Log::error('Unexpected error in UserController@store: ' . $e->getMessage());
             return back()
                 ->withInput()
-                ->with('error', 'An unexpected error occurred. Please try again later.');
+                ->with('error', 'Произошла ошибка.');
         }
     }
 
@@ -98,9 +98,9 @@ class UserService implements UserServiceInterface
             'full_name' => 'required|string|max:255',
             'date_of_birth' => 'required|date',
             'phone' => 'required|string|max:20',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255,' . $user->id,
             'login' => 'required|string|max:255|unique:users,login,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
+            'password' => 'nullable|string|min:8',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -119,7 +119,7 @@ class UserService implements UserServiceInterface
 
         //Загрузка фото
         if ($request->hasFile('photo')) {
-            // Delete old photo if exists
+            // Удаляем старое фото, если существует
             if ($user->photo) {
                 Storage::delete('public/' . $user->photo);
             }

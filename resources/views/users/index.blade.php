@@ -50,12 +50,12 @@
                                     data-phone="{{ $user->phone }}"
                                     data-email="{{ $user->email }}"
                                     data-login="{{ $user->login }}">
-                                Edit
+                                Редактировать
                             </button>
                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal"
                                     data-user-id="{{ $user->id }}"
                                     data-full-name="{{ $user->full_name }}">
-                                Delete
+                                Удалить
                             </button>
                         </td>
                     </tr>

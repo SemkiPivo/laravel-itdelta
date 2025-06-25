@@ -24,12 +24,12 @@ class UserController extends Controller
     {
         return $this->userService->store($request);
     }
-    public function update(): View
+    public function update(User $user, Request $request): RedirectResponse
     {
-        return $this->userService->index();
+        return $this->userService->update($user, $request);
     }
-    public function delete(): View
+    public function destroy(User $user): RedirectResponse
     {
-        return $this->userService->index();
+        return $this->userService->destroy($user);
     }
 }
