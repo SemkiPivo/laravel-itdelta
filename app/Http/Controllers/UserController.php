@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\UserServiceInterface;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,9 +20,9 @@ class UserController extends Controller
     {
         return $this->userService->index();
     }
-    public function store(): View
+    public function store(Request $request): RedirectResponse
     {
-        return $this->userService->index();
+        return $this->userService->store($request);
     }
     public function update(): View
     {
